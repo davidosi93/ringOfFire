@@ -1,0 +1,29 @@
+.start-screen {
+    background-color: #404040;
+    height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    background-image: url(/assets/img/startscreen1.png);
+    background-size: cover;
+    -webkit-background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    button {
+        position: absolute;
+        right: 17%;
+        top: 45%;
+        width: 200px;
+        height: 50px;
+        border: none;
+        border-radius: 100%;
+        cursor: pointer;
+        font-size: 25px;
+        background-color: #68525e;
+        color: white;
+        &:hover {
+            background-color: #070e18;
+        }
+    }
+}
