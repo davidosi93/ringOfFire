@@ -10,12 +10,16 @@
         margin-left: 16px;
     }
 
-    background-color: orange;
+    background-color: rgb(159, 156, 149);
 
     img {
-        width: 100px;
-        height: 100px;
+        width: 70px;
+        height: 70px;
         object-fit: cover;
         border-radius: 100%;
     }
+}
+
+.player-active {
+    background-color: orange !important;
 }
