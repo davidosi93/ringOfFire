@@ -1,4 +1,7 @@
 export class Game {
+    subscribe(arg0: (game: any) => void) {
+      throw new Error('Method not implemented.');
+    }
     public players: string[] = [];
     public stack: string[] = [];
     public playedCards: string[] = [];
