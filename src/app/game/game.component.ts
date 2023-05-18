@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
-import { inject } from '@angular/core';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { Firestore, collectionData } from '@angular/fire/firestore';
 import { Game } from 'src/models/game';
 import { Observable } from 'rxjs';
-
+import { ActivatedRoute } from '@angular/router';
+import { collection, addDoc } from "firebase/firestore";
 
 
 
@@ -19,23 +19,36 @@ export class GameComponent implements OnInit {
   currentCard: string | undefined = '';
   game$!: Observable<any>;
   game!: Game;
-  private firestore: Firestore = inject(Firestore);
+  //private firestore: Firestore = inject(Firestore);
 
-  constructor(public dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute, public dialog: MatDialog, private firestore: Firestore) { }
 
 
   ngOnInit(): void {
     this.newGame();
-    const aCollection = collection(this.firestore, 'games');
-    this.game$ = collectionData(aCollection);
-    this.game$.subscribe((game) => {
-      console.log('Game update', game);
+    this.route.params.subscribe((params) => {
+      console.log(params['id']);
+
+      const aCollection = (collection(this.firestore, 'games'));
+      this.game$ = collectionData(aCollection);
+      this.game.addDoc(params['id']);
+      this.game.subscribe((game: any) => {
+        console.log('Game update', game);
+        this.game.currentPlayer = game.currentPlayer;
+        this.game.playedCards = game.playedCards;
+        this.game.players = game.players;
+        this.game.stack = game.stack;
+      });
     });
+
   }
 
-  newGame() {
+  async newGame() {
     this.game = new Game();
-    this.firestore.collection('games').addDoc();
+    let gameInfo = addDoc(collection(this.firestore, 'games'), {
+      game: this.game.toJson()
+    });
+    console.log(gameInfo);
   }
 
   takeCard() {
